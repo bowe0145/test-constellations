@@ -139,7 +139,7 @@ function StarPage({ starCount }) {
     <div className="p-2 max-w-sm min-w-max justify-start m-auto my-2">
       <button
         onClick={handleClick}
-        className="font-bold py-2 px-4 rounded border-blue-700 bg-blue-600 border-2"
+        className="font-bold py-2 px-4 rounded border-blue-700 bg-blue-600 border-2 min-w-full m-auto w-full"
       >
         Generate Stars
       </button>
