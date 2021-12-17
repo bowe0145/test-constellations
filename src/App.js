@@ -35,9 +35,10 @@ function StarPage({ starCount }) {
   const [cost, setCost] = useState(null)
   const [highestAttempts, setHighestAttempts] = useState(null)
   const [lowestAttempts, setLowestAttempts] = useState(Number.MAX_SAFE_INTEGER)
-  const [averageAttempts, setAverageAttempts] = useState(null)
+  const [averageAttempts, setAverageAttempts] = useState(0)
   const [totalAttempts, setTotalAttempts] = useState(0)
   const [attemptList, setAttemptList] = useState([])
+  const [clicks, setClicks] = useState(0)
 
   const formatter = new Intl.NumberFormat()
 
@@ -52,7 +53,12 @@ function StarPage({ starCount }) {
         setLowestAttempts(attempts)
       }
       // Set average
-      setAverageAttempts(totalAttempts / attemptList.length)
+      let average = totalAttempts / attemptList.length
+      if (average === NaN) {
+        setAverageAttempts(0)
+      } else {
+        setAverageAttempts(average)
+      }
     }
   }, [attempts])
 
@@ -71,6 +77,7 @@ function StarPage({ starCount }) {
   }, [])
 
   const handleClick = () => {
+    setClicks(clicks + 1)
     // Generate 5 random type stars until the desired star is found in all 5 array slots
     const generateStars = () => {
       const types = ['dark', 'fire', 'wind', 'water', 'earth']
@@ -120,10 +127,11 @@ function StarPage({ starCount }) {
     setAverageAttempts(null)
     setTotalAttempts(0)
     setAttemptList([])
+    setClicks(0)
   }
 
   return (
-    <div className="p-2 max-w-md justify-start m-auto my-2">
+    <div className="p-2 max-w-sm justify-start m-auto my-2">
       <button
         onClick={handleClick}
         className="font-bold py-2 px-4 rounded border-blue-700 bg-blue-600 border-2"
@@ -144,7 +152,7 @@ function StarPage({ starCount }) {
           <option value="earth">Earth</option>
         </select>
       </div>
-      <div className="flex-auto flex-wrap flex-row">
+      <div className="flex-auto flex-wrap flex-row max-w-sm min-w-max">
         {stars !== null && stars !== undefined && stars.length > 0
           ? stars.map((star, index) => <Star key={index} type={star} />)
           : null}
@@ -160,16 +168,26 @@ function StarPage({ starCount }) {
                 <span>Highest:</span> <span className="text-right">{highestAttempts}</span>
                 <span>Lowest:</span> <span className="text-right">{lowestAttempts}</span>
                 <span>Average</span>
-                <span className="text-right">{formatter.format(averageAttempts) || 0}</span>
+                <span className="text-right">
+                  {!isNaN(averageAttempts) ? formatter.format(averageAttempts) : 0}
+                </span>
                 <span>Average Cost</span>
-                <span className="text-right">{formatter.format(averageAttempts * 200_000)}</span>
+                <span className="text-right">
+                  {!isNaN(averageAttempts) ? formatter.format(averageAttempts * 200_000) : 0}
+                </span>
                 <span>Total (Added)</span>
                 <span className="text-right">{formatter.format(totalAttempts)}</span>
-                <span>Total Clicks</span>
-                <span className="text-right">{attemptList.length || 0}</span>
               </div>
             </div>
           ) : null}
+        </div>
+      ) : null}
+      {clicks !== null && clicks !== undefined && clicks > 0 ? (
+        <div className="m-2">
+          <div className="grid grid-cols-2 gap-2">
+            <span>Total Clicks</span>
+            <span className="text-right">{formatter.format(clicks)}</span>
+          </div>
         </div>
       ) : null}
     </div>
