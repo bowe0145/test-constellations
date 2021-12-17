@@ -20,7 +20,7 @@ const Star = ({ type }) => {
     )
   } else if (type === 'earth') {
     return (
-      <div className="border-2 border-amber-600 text-center rounded-md m-2 p-2 max-w-sm">Fire</div>
+      <div className="border-2 border-amber-600 text-center rounded-md m-2 p-2 max-w-sm">Earth</div>
     )
   }
   return (
