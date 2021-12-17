@@ -39,6 +39,7 @@ function StarPage({ starCount }) {
   const [totalAttempts, setTotalAttempts] = useState(0)
   const [attemptList, setAttemptList] = useState([])
   const [clicks, setClicks] = useState(0)
+  const [hideAttempts, setHideAttempts] = useState(true)
 
   const formatter = new Intl.NumberFormat()
 
@@ -130,8 +131,12 @@ function StarPage({ starCount }) {
     setClicks(0)
   }
 
+  const handleHideAttempts = () => {
+    setHideAttempts(!hideAttempts)
+  }
+
   return (
-    <div className="p-2 max-w-sm justify-start m-auto my-2">
+    <div className="p-2 max-w-sm min-w-max justify-start m-auto my-2">
       <button
         onClick={handleClick}
         className="font-bold py-2 px-4 rounded border-blue-700 bg-blue-600 border-2"
@@ -157,39 +162,43 @@ function StarPage({ starCount }) {
           ? stars.map((star, index) => <Star key={index} type={star} />)
           : null}
       </div>
-      {cost !== null ? (
-        <div>
-          <p className="text-center">It took {attempts.toString()} attempts lol</p>
-          <p className="text-center">That's {cost} gold</p>
-          {highestAttempts !== null ? (
-            <div className="m-2">
-              <h3 className="text-center">Attempts</h3>
-              <div className="grid grid-cols-2 gap-2">
-                <span>Highest:</span> <span className="text-right">{highestAttempts}</span>
-                <span>Lowest:</span> <span className="text-right">{lowestAttempts}</span>
-                <span>Average</span>
-                <span className="text-right">
-                  {!isNaN(averageAttempts) ? formatter.format(averageAttempts) : 0}
-                </span>
-                <span>Average Cost</span>
-                <span className="text-right">
-                  {!isNaN(averageAttempts) ? formatter.format(averageAttempts * 200_000) : 0}
-                </span>
-                <span>Total (Added)</span>
-                <span className="text-right">{formatter.format(totalAttempts)}</span>
+      <div>
+        {cost !== null ? (
+          <div className="max-w-sm">
+            <p className="text-center">It took {attempts.toString()} attempts lol</p>
+            <p className="text-center">That's {cost} gold</p>
+            <p onClick={handleHideAttempts} className="text-center border-b border-blue-300 p-2">
+              Attempt Details {hideAttempts ? '+' : '-'}
+            </p>
+            {hideAttempts === false && highestAttempts !== null ? (
+              <div className="m-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <span>Highest:</span> <span className="text-right">{highestAttempts}</span>
+                  <span>Lowest:</span> <span className="text-right">{lowestAttempts}</span>
+                  <span>Average</span>
+                  <span className="text-right">
+                    {!isNaN(averageAttempts) ? formatter.format(averageAttempts) : 0}
+                  </span>
+                  <span>Average Cost</span>
+                  <span className="text-right">
+                    {!isNaN(averageAttempts) ? formatter.format(averageAttempts * 200_000) : 0}
+                  </span>
+                  <span>Total (Added)</span>
+                  <span className="text-right">{formatter.format(totalAttempts)}</span>
+                </div>
               </div>
-            </div>
-          ) : null}
-        </div>
-      ) : null}
-      {clicks !== null && clicks !== undefined && clicks > 0 ? (
-        <div className="m-2">
-          <div className="grid grid-cols-2 gap-2">
-            <span>Total Clicks</span>
-            <span className="text-right">{formatter.format(clicks)}</span>
+            ) : null}
           </div>
-        </div>
-      ) : null}
+        ) : null}
+        {clicks !== null && clicks !== undefined && clicks > 0 ? (
+          <div className="m-2">
+            <div className="grid grid-cols-2 gap-2">
+              <span>Total Clicks</span>
+              <span className="text-right">{formatter.format(clicks)}</span>
+            </div>
+          </div>
+        ) : null}
+      </div>
     </div>
   )
 }
