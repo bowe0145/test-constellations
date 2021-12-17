@@ -33,8 +33,28 @@ function App() {
   const [desiredStar, setDesiredStar] = useState('random')
   const [attempts, setAttempts] = useState(0)
   const [cost, setCost] = useState(null)
+  const [highestAttempts, setHighestAttempts] = useState(null)
+  const [lowestAttempts, setLowestAttempts] = useState(Number.MAX_SAFE_INTEGER)
+  const [averageAttempts, setAverageAttempts] = useState(null)
+  const [totalAttempts, setTotalAttempts] = useState(0)
+  const [attemptList, setAttemptList] = useState([])
 
   const formatter = new Intl.NumberFormat()
+
+  useEffect(() => {
+    if (attempts !== null && attempts !== undefined) {
+      setAttemptList([...attemptList, attempts])
+      setTotalAttempts(totalAttempts + attempts)
+      if (highestAttempts === null || attempts > highestAttempts) {
+        setHighestAttempts(attempts)
+      }
+      if (attempts !== null && attempts !== 0 && attempts < lowestAttempts) {
+        setLowestAttempts(attempts)
+      }
+      // Set average
+      setAverageAttempts(totalAttempts / attemptList.length)
+    }
+  }, [attempts])
 
   // Generate 5 random type stars
   useEffect(() => {
@@ -93,6 +113,15 @@ function App() {
     findDesiredStar()
   }
 
+  const handleChangeDesiredStar = e => {
+    setDesiredStar(e.target.value)
+    setHighestAttempts(null)
+    setLowestAttempts(Number.MAX_SAFE_INTEGER)
+    setAverageAttempts(null)
+    setTotalAttempts(0)
+    setAttemptList([])
+  }
+
   return (
     <div className="grid m-2 p-2 max-w-md justify-center">
       <button
@@ -104,7 +133,7 @@ function App() {
       <div>
         <span>I want </span>
         <select
-          onChange={e => setDesiredStar(e.target.value)}
+          onChange={handleChangeDesiredStar}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
         >
           <option value="random">Random</option>
@@ -122,8 +151,25 @@ function App() {
       </div>
       {cost !== null ? (
         <div>
-          <p>It took {attempts.toString()} attempts lol</p>
-          <p>That's {cost} gold</p>
+          <p className="text-center">It took {attempts.toString()} attempts lol</p>
+          <p className="text-center">That's {cost} gold</p>
+          {highestAttempts !== null ? (
+            <div className="m-2">
+              <h3 className="text-center">Attempts</h3>
+              <div className="grid grid-cols-2 gap-2">
+                <span>Highest:</span> <span className="text-right">{highestAttempts}</span>
+                <span>Lowest:</span> <span className="text-right">{lowestAttempts}</span>
+                <span>Average</span>
+                <span className="text-right">{formatter.format(averageAttempts) || 0}</span>
+                <span>Average Cost</span>
+                <span className="text-right">{formatter.format(averageAttempts * 200_000)}</span>
+                <span>Total (Added)</span>
+                <span className="text-right">{formatter.format(totalAttempts)}</span>
+                <span>Total Clicks</span>
+                <span className="text-right">{attemptList.length || 0}</span>
+              </div>
+            </div>
+          ) : null}
         </div>
       ) : null}
     </div>
