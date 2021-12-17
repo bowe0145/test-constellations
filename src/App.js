@@ -126,7 +126,7 @@ function App() {
     <div className="grid m-2 p-2 max-w-md justify-center m-auto">
       <button
         onClick={handleClick}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="font-bold py-2 px-4 rounded border-blue-400 bg-blue-600 border-2"
       >
         Generate Stars
       </button>
@@ -134,7 +134,7 @@ function App() {
         <span>I want </span>
         <select
           onChange={handleChangeDesiredStar}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+          className="border-2 border-blue-400 text-slate-800 font-bold py-2 px-4 rounded m-2"
         >
           <option value="random">Random</option>
           <option value="dark">Dark</option>
