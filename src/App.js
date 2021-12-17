@@ -28,7 +28,7 @@ const Star = ({ type }) => {
   )
 }
 
-function App() {
+function StarPage({ starCount }) {
   const [stars, setStars] = useState([])
   const [desiredStar, setDesiredStar] = useState('random')
   const [attempts, setAttempts] = useState(0)
@@ -61,7 +61,7 @@ function App() {
     const generateStars = () => {
       const types = ['dark', 'fire', 'wind', 'water', 'earth']
       const randomTypes = []
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < starCount; i++) {
         const randomType = types[Math.floor(Math.random() * types.length)]
         randomTypes.push(randomType)
       }
@@ -75,7 +75,7 @@ function App() {
     const generateStars = () => {
       const types = ['dark', 'fire', 'wind', 'water', 'earth']
       const randomTypes = []
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < starCount; i++) {
         const randomType = types[Math.floor(Math.random() * types.length)]
         randomTypes.push(randomType)
       }
@@ -123,7 +123,7 @@ function App() {
   }
 
   return (
-    <div className="grid p-2 max-w-md justify-center m-auto">
+    <div className="p-2 max-w-md justify-start m-auto my-2">
       <button
         onClick={handleClick}
         className="font-bold py-2 px-4 rounded border-blue-700 bg-blue-600 border-2"
@@ -172,6 +172,18 @@ function App() {
           ) : null}
         </div>
       ) : null}
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <div className="flex flex-wrap m-auto justify-start">
+      <StarPage starCount={3} />
+      <StarPage starCount={4} />
+      <StarPage starCount={4} />
+      <StarPage starCount={5} />
+      <StarPage starCount={5} />
     </div>
   )
 }
