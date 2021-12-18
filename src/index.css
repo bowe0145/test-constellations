@@ -8,8 +8,3 @@
   --text-color: #f8f8f2;
   --border-color: #282a36;
 }
-
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}

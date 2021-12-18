@@ -4,15 +4,19 @@ import './App.css'
 const Star = ({ type }) => {
   if (type === 'dark') {
     return (
-      <div className="border-2 border-slate-600 text-center rounded-md m-2 p-2 max-w-sm">Dark</div>
+      <div className="border-2 border-slate-600 shadow-slate-600/30 text-center rounded-md m-2 p-2 max-w-sm">
+        Dark
+      </div>
     )
   } else if (type === 'fire') {
     return (
-      <div className="border-2 border-red-500 text-center rounded-md m-2 p-2 max-w-sm">Fire</div>
+      <div className="border-2 border-red-500 shadow-red-500 text-center rounded-md m-2 p-2 max-w-sm">
+        Fire
+      </div>
     )
   } else if (type === 'wind') {
     return (
-      <div className="border-2 border-green-500 text-center rounded-md m-2 p-2 max-w-sm">Wind</div>
+      <div className="border-2 border-green-500 text-center rounded-md m-2 p-2 max-w-sm ">Wind</div>
     )
   } else if (type === 'water') {
     return (
@@ -55,7 +59,7 @@ function StarPage({ starCount }) {
       }
       // Set average
       let average = totalAttempts / attemptList.length
-      if (average === NaN) {
+      if (isNaN(average)) {
         setAverageAttempts(0)
       } else {
         setAverageAttempts(average)
@@ -139,7 +143,7 @@ function StarPage({ starCount }) {
     <div className="p-2 max-w-sm min-w-max justify-start m-auto my-2">
       <button
         onClick={handleClick}
-        className="font-bold py-2 px-4 rounded border-blue-700 bg-blue-600 border-2 min-w-full m-auto w-full"
+        className="font-bold py-2 px-4 rounded border-blue-700 bg-blue-600 border-2 min-w-full m-auto w-full text-slate-50"
       >
         Generate Stars
       </button>
@@ -172,7 +176,7 @@ function StarPage({ starCount }) {
             </p>
             {hideAttempts === false && highestAttempts !== null ? (
               <div className="m-2">
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2 max-w-xs">
                   <span>Highest:</span> <span className="text-right">{highestAttempts}</span>
                   <span>Lowest:</span> <span className="text-right">{lowestAttempts}</span>
                   <span>Average</span>
@@ -205,7 +209,7 @@ function StarPage({ starCount }) {
 
 function App() {
   return (
-    <div className="flex flex-wrap m-auto justify-start">
+    <div className="flex flex-wrap m-auto justify-start prose prose-slate bg-slate-50 min-h-screen min-w-full dark:prose-invert dark:bg-slate-900">
       <StarPage starCount={3} />
       <StarPage starCount={4} />
       <StarPage starCount={4} />
