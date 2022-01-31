@@ -100,7 +100,8 @@ function StarPage({ starCount }) {
         setStars(generateStars())
         setAttempts(0)
         setCost(null)
-      } else {
+      } else if (desiredStar !== 'rainbow') {
+        // Find 1 type of star
         let tempStars = []
         let found = false
         let count = 0
@@ -119,6 +120,21 @@ function StarPage({ starCount }) {
         // Set the attempts to the new number
         setAttempts(count)
         setCost(formatter.format(count * 200_000))
+      } else {
+        // Find each type of star
+        // Only valid if there are 5 star slots
+        if (starCount === 5) {
+          let tempStars = []
+          let found = false
+          let count = 0
+          // Generate stars and check if EVERY TYPE of star can be found in the array
+          while (found === false) {
+            // Generate new stars
+            tempStars = generateStars()
+            count++
+            // Look for every type of star
+          }
+        }
       }
     }
 
@@ -215,6 +231,7 @@ function App() {
       <StarPage starCount={4} />
       <StarPage starCount={5} />
       <StarPage starCount={5} />
+      <StarPage starCount={6} />
     </div>
   )
 }
